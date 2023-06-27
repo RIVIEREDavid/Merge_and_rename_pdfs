@@ -130,6 +130,7 @@ class MainWindow(QMainWindow):
                 shutil.rmtree(temp_dir)
         
         self.merge_button.setEnabled(False)
+        self.split_button.setEnabled(False)
 
 
     def clear_list(self):

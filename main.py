@@ -1,8 +1,8 @@
 import sys
 import shutil
 import tempfile
-from PySide6.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QLabel, QPushButton, QFileDialog, QListWidget, QWidget, QAbstractItemView, QErrorMessage
-from PySide6.QtGui import Qt
+from PySide6.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QLabel, QPushButton, QFileDialog, QListWidget, QWidget, QAbstractItemView, QMessageBox
+from PySide6.QtGui import Qt    
 from PySide6.QtCore import QMimeData
 from PyPDF2 import PdfMerger, PdfReader, PdfWriter
 from pathlib import Path
@@ -94,7 +94,13 @@ class MainWindow(QMainWindow):
 
         if file_dialog.exec():
             self.file_paths = file_dialog.selectedFiles()
-            self.merge_button.setEnabled(True)
+            if len(self.file_paths) == 1:
+                self.merge_button.setEnabled(False)
+                self.split_button.setEnabled(True)
+            else:
+                self.merge_button.setEnabled(True)
+                self.split_button.setEnabled(False)
+
             self.list_widget.clear()
             self.list_widget.addItems(self.file_paths)
 
@@ -167,9 +173,18 @@ class MainWindow(QMainWindow):
 
                     self.list_widget.takeItem(0)  # Supprimer l'item d'origine
 
-                    self.list_widget.clear()
-            self.split_button.setEnabled(False)
-            self.merge_button.setEnabled(False)
+                self.list_widget.clear()
+                self.split_button.setEnabled(False)
+                self.merge_button.setEnabled(False)
+
+            else:
+                msgBox = QMessageBox()
+                msgBox.setIcon(QMessageBox.Warning) # type: ignore
+                msgBox.setText("Vous ne pouvez pas splitter un fichier ne contenant qu'une seule page!")
+                msgBox.setWindowTitle("Erreur")
+                msgBox.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel) # type: ignore
+                msgBox.setWindowFlag(Qt.WindowStaysOnTopHint, True) # type: ignore
+                msgBox.exec()
 
 
 if __name__ == "__main__":

@@ -168,8 +168,8 @@ class MainWindow(QMainWindow):
                     self.list_widget.takeItem(0)  # Supprimer l'item d'origine
 
                     self.list_widget.clear()
-                    self.split_button.setEnabled(False)
-                    self.merge_button.setEnabled(False)
+            self.split_button.setEnabled(False)
+            self.merge_button.setEnabled(False)
 
 
 if __name__ == "__main__":

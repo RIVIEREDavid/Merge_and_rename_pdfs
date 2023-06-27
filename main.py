@@ -117,7 +117,7 @@ class MainWindow(QMainWindow):
                 merger = PdfMerger()
                 for file_path in temp_files:
                     merger.append(str(file_path))
-                output_file_path, _ = QFileDialog.getSaveFileName(self, "Enregistrer le fichier fusionné", output_file_name, "PDF Files (*.pdf)")
+                output_file_path, _ = QFileDialog.getSaveFileName(self, "Enregistrer le fichier fusionné", output_file_name, "PDF Files (*.pdf *.PDF)")
                 if output_file_path:
                     with open(output_file_path, "wb") as output_file:
                         merger.write(output_file)
@@ -154,7 +154,6 @@ class MainWindow(QMainWindow):
 
                 if save_file_box.exec():
                     root_file_name = save_file_box.selectedFiles()[0]
-                    print(root_file_name)
 
                     for i, page in enumerate(pdf_reader.pages):
                         output_file_path = f"{root_file_name[:-4]}_{str(i+1).zfill(2)}.pdf"
